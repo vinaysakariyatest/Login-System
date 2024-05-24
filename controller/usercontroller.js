@@ -40,6 +40,12 @@ exports.Register = async (req, res) => {
             // const user = new User({name, email, phone,password, cpassword})
 
             const userCreated = await User.create(req.body)
+
+            let token = await userCreated.generateAuthToken();
+            console.log(token)
+
+            // res.cookie("jwt", token)
+        
             await userCreated.save();
 
             res.status(201).json({ message: "User Registartion Successfull",
@@ -69,6 +75,7 @@ exports.Login = async (req, res) => {
             let token = await userLogin.generateAuthToken();
             console.log(token)
 
+            res.cookie("jwt", token)
 
             if(!isMatch){
                 res.status(400).json({ message: "Invalid Credientials"})
@@ -89,6 +96,9 @@ exports.Login = async (req, res) => {
 
 exports.getData = async (req,res) => {
     try {
+        // res.cookie("jwttoken","token",{
+        //     expires: new Date(Date.now() + 3000)
+        // })
         res.send("Hello") 
     } catch (error) {
        error

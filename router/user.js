@@ -9,4 +9,5 @@ router.post('/login',user.Login)
 
 router.get('/getData',auth.check_token,user.getData)
 
+
 module.exports = router
